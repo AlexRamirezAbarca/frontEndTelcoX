@@ -1,1 +1,58 @@
-/* You can add global styles to this file, and also import other style files */
+/* Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Variables globales de color y tipografía */
+:root {
+  --primary: #64B5F6;
+  --secondary: #C5E1A5;
+  --background-light: #F5F5F7;
+  --background-dark: #111418;
+  --surface-light: #FFFFFF;
+  --surface-dark: #283039;
+  --text-light: #333333;
+  --text-dark: #FFFFFF;
+  --muted-text-light: #6c757d;
+  --muted-text-dark: #9dabb9;
+  --border-light: #EEEEEE;
+  --border-dark: #3b4754;
+}
+
+/* Variables para modo oscuro */
+.dark {
+  --primary: #64B5F6;
+  --secondary: #C5E1A5;
+  --background-light: #111418;
+  --background-dark: #111418;
+  --surface-light: #283039;
+  --surface-dark: #283039;
+  --text-light: #FFFFFF;
+  --text-dark: #FFFFFF;
+  --muted-text-light: #9dabb9;
+  --muted-text-dark: #9dabb9;
+  --border-light: #3b4754;
+  --border-dark: #3b4754;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+/* Tipografía global */
+body {
+  @apply font-sans bg-background-light text-text-light;
+}
+
+/* Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}

@@ -1,0 +1,199 @@
+<div
+  class="bg-background-light dark:bg-background-dark font-display text-text-light dark:text-text-dark min-h-screen flex flex-col"
+>
+  <div class="flex flex-1 justify-center py-10 px-6 sm:px-8 md:px-12 lg:px-16 xl:px-24">
+    <div class="flex flex-col w-full max-w-[1200px]">
+      <!-- Estado de carga -->
+      <div *ngIf="loading" class="text-center text-gray-500 text-lg py-20">
+        Cargando datos del cliente...
+      </div>
+
+      <!-- Error -->
+      <div *ngIf="error && !loading" class="text-center text-red-500 text-lg py-20">
+        {{ error }}
+      </div>
+
+      <!-- Contenido principal -->
+      <ng-container *ngIf="!loading && !error && data">
+        <!-- Saludo -->
+        <div class="flex flex-wrap justify-between items-center gap-4 mb-8">
+          <div class="flex flex-col gap-1">
+            <p class="text-3xl font-bold tracking-tight">Hola, {{ data.customerName }}</p>
+            <p class="text-base text-muted-light dark:text-muted-dark">
+              Bienvenido a tu panel de control.
+            </p>
+            <p class="text-sm text-muted-light dark:text-muted-dark">
+              Última actualización: {{ lastUpdated | date : 'short' }}
+            </p>
+          </div>
+
+          <button
+            (click)="fetchData()"
+            class="flex min-w-[120px] items-center justify-center rounded-full h-12 px-6 bg-primary text-white text-base font-bold transition-transform hover:scale-105"
+          >
+            <span *ngIf="!loading">Recargar</span>
+            <span *ngIf="loading" class="animate-spin material-symbols-outlined">autorenew</span>
+          </button>
+        </div>
+
+        <!-- Panel principal -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <!-- Saldo -->
+          <div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm">
+            <div class="flex items-center gap-4 mb-2">
+              <span class="material-symbols-outlined text-primary text-3xl">
+                account_balance_wallet
+              </span>
+              <h3 class="text-lg font-semibold">Saldo Actual</h3>
+            </div>
+            <p class="text-4xl font-bold text-primary">${{ data.balance }}</p>
+            <p class="text-sm text-muted-light dark:text-muted-dark mt-1">Vence en 15 días</p>
+          </div>
+
+          <!-- Uso de datos -->
+          <div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm">
+            <div class="flex items-center gap-4 mb-2">
+              <span class="material-symbols-outlined text-primary text-3xl">data_usage</span>
+              <h3 class="text-lg font-semibold">Uso de Datos</h3>
+            </div>
+            <div class="flex items-baseline gap-2">
+              <p class="text-4xl font-bold">{{ data.dataUsed }}<span class="text-2xl"> GB</span></p>
+              <p class="text-lg text-muted-light dark:text-muted-dark">/ {{ data.dataLimit }} GB</p>
+            </div>
+            <div class="w-full bg-border-light dark:bg-border-dark rounded-full h-2.5 mt-3">
+              <div
+                class="bg-primary h-2.5 rounded-full transition-all duration-300"
+                [style.width.%]="dataUsagePercent"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Uso de minutos -->
+          <div class="bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm">
+            <div class="flex items-center gap-4 mb-2">
+              <span class="material-symbols-outlined text-primary text-3xl">mic</span>
+              <h3 class="text-lg font-semibold">Uso de Minutos</h3>
+            </div>
+            <div class="flex items-baseline gap-2">
+              <p class="text-4xl font-bold">
+                {{ data.minutesUsed }}<span class="text-2xl"> min</span>
+              </p>
+              <p class="text-lg text-muted-light dark:text-muted-dark">
+                / {{ data.minutesLimit }} min
+              </p>
+            </div>
+            <div class="w-full bg-border-light dark:bg-border-dark rounded-full h-2.5 mt-3">
+              <div
+                class="bg-primary h-2.5 rounded-full transition-all duration-300"
+                [style.width.%]="minutesUsagePercent"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Combos simulados -->
+        <div class="bg-surface-light dark:bg-surface-dark p-6 sm:p-8 rounded-xl shadow-sm">
+          <h2 class="text-2xl font-bold mb-6">Nuevos Combos Simulados</h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Combo Conectado -->
+            <div
+              class="border border-border-light dark:border-border-dark rounded-xl p-6 flex flex-col bg-background-light dark:bg-surface-dark hover:shadow-lg transition-shadow"
+            >
+              <h4 class="text-xl font-bold mb-2">Combo Conectado</h4>
+              <p class="text-3xl font-extrabold text-primary mb-4">$150</p>
+              <div class="space-y-3 mb-6 text-muted-light dark:text-muted-dark">
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-secondary">wifi</span>
+                  <p>5 GB de Datos</p>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-secondary">call</span>
+                  <p>300 Minutos</p>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-secondary">calendar_today</span>
+                  <p>Válido por 15 días</p>
+                </div>
+              </div>
+              <button
+                class="w-full mt-auto rounded-full h-11 px-6 bg-secondary text-green-900 font-bold hover:scale-105 transition-transform"
+              >
+                Activar
+              </button>
+            </div>
+
+            <!-- Combo Plus -->
+            <div
+              class="border-2 border-primary rounded-xl p-6 flex flex-col bg-background-light dark:bg-surface-dark hover:shadow-lg transition-shadow relative"
+            >
+              <div
+                class="absolute top-0 -mt-4 bg-primary text-white px-4 py-1 text-sm font-bold rounded-full self-center"
+              >
+                Más Popular
+              </div>
+              <h4 class="text-xl font-bold mb-2">Combo Plus</h4>
+              <p class="text-3xl font-extrabold text-primary mb-4">$250</p>
+              <div class="space-y-3 mb-6 text-muted-light dark:text-muted-dark">
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-primary">wifi_tethering</span>
+                  <p>15 GB de Datos</p>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-primary">call</span>
+                  <p>Minutos Ilimitados</p>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-primary">calendar_today</span>
+                  <p>Válido por 30 días</p>
+                </div>
+              </div>
+              <button
+                class="w-full mt-auto rounded-full h-11 px-6 bg-primary text-white font-bold hover:scale-105 transition-transform"
+              >
+                Activar
+              </button>
+            </div>
+
+            <!-- Combo Ilimitado -->
+            <div
+              class="border border-border-light dark:border-border-dark rounded-xl p-6 flex flex-col bg-background-light dark:bg-surface-dark hover:shadow-lg transition-shadow"
+            >
+              <h4 class="text-xl font-bold mb-2">Combo Ilimitado</h4>
+              <p class="text-3xl font-extrabold text-primary mb-4">$450</p>
+              <div class="space-y-3 mb-6 text-muted-light dark:text-muted-dark">
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-secondary">all_inclusive</span>
+                  <p>Datos Ilimitados</p>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-secondary">call</span>
+                  <p>Minutos Ilimitados</p>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="material-symbols-outlined text-secondary">calendar_today</span>
+                  <p>Válido por 30 días</p>
+                </div>
+              </div>
+              <button
+                class="w-full mt-auto rounded-full h-11 px-6 bg-secondary text-green-900 font-bold hover:scale-105 transition-transform"
+              >
+                Más información
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <!-- Botón Dark/Light mode: fijo en esquina inferior derecha -->
+    <button
+      (click)="toggleTheme()"
+      class="fixed bottom-4 right-4 z-50 rounded-full h-10 w-10 flex items-center justify-center bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 shadow-md hover:scale-105 transition-transform"
+      [title]="themeService.isDarkMode() ? 'Activar Modo Claro' : 'Activar Modo Oscuro'"
+    >
+      <span class="material-symbols-outlined">
+        {{ themeService.isDarkMode() ? 'light_mode' : 'dark_mode' }}
+      </span>
+    </button>
+  </div>
+</div>
