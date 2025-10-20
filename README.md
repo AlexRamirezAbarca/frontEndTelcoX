@@ -1,64 +1,71 @@
-<<<<<<< HEAD
-# Frontend
+# TelcoX - Plataforma de Auto-Gestión
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.6.
+## Descripción
+Este proyecto implementa la plataforma de auto-gestión **TelcoX**, permitiendo a los clientes consultar:
 
-## Development server
+- Consumo de datos y minutos
+- Saldo disponible
+- Información actualizada en tiempo real (simulada)
 
-To start a local development server, run:
+El **backend** está desarrollado en **Python 3.14 + Flask** y dockerizado, mientras que el **frontend** se construye con **Angular 16** y se sirve mediante **Nginx**.
 
-```bash
-ng serve
+---
+
+## Configuración del Backend
+
+En `src/environments/environment.prod.ts` se configura la URL del backend en producción:
+
+```ts
+export const environment = {
+  production: true,
+  apiBaseUrl: 'http://localhost:5000/api'
+};
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
+## Instalación Local
 
-## Code scaffolding
+Clonar el repositorio:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+git clone https://github.com/AlexRamirezAbarca/frontEndTelcoX.git
 
-```bash
-ng generate component component-name
-```
+cd frontEndTelcoX
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Instalar dependencias:
 
-```bash
-ng generate --help
-```
+npm install
 
-## Building
 
-To build the project run:
+### Levantar la aplicación en modo desarrollo:
 
-```bash
-ng build
-```
+ng serve 
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+ng build --configuration production
 
-## Running unit tests
+---
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Dockerización
 
-```bash
-ng test
-```
+Construir la imagen Docker:
 
-## Running end-to-end tests
+docker build -t telcox-frontend .
 
-For end-to-end (e2e) testing, run:
 
-```bash
-ng e2e
-```
+Levantar el contenedor:
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+docker run -p 4200:80 telcox-frontend
 
-## Additional Resources
+---
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-=======
-# frontEndTelcoX
-Front TelcoX
->>>>>>> 3f1b35e5960064c4f4c2929f732e93b4dc2483dc
+## Mejora y Escalabilidad
+
+Se recomienda apuntar a un backend real en producción.
+
+Configurar HTTPS y variables de entorno para diferentes entornos (dev, staging, prod).
+
+Agregar logging, interceptores y manejo de errores para mejorar la experiencia de usuario.
+
+## Autor
+
+Alex Ramirez
+
